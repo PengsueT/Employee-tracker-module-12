@@ -40,7 +40,7 @@ When the application is started, you will be prompted with a menu that allows yo
 
 ## Video
 
-
+[Demonstration Video Link](https://drive.google.com/file/d/1Vy8QQw0eXHqBZMXnUc55A5KQtZfXjCaC/view?usp=sharing)
 
 ## Credits
 
@@ -51,6 +51,3 @@ When the application is started, you will be prompted with a menu that allows yo
 - [W3Schools](https://www.w3schools.com/) – Additional SQL tutorials and examples.
 
 - [Inquirer.js](https://www.npmjs.com/package/inquirer)
-
-
-- [GithubLiveLink]()

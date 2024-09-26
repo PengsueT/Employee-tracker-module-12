@@ -60,20 +60,25 @@ async function employeeApp() {
         case 'View All Employees':
             await viewAllEmployees();
             break;
+        case 'View All Roles':
+            await viewAllRoles();
+            break;
+        case 'View All Departments':
+            await viewAllDepartments();
+            break;
+
+
         case 'Quit':
             await pool.end(); // we want to close PostgreSQL pool when quitting
             console.log('Exiting the program...');
             process.exit(0);
-            break;
-        // need to add more cases here TODO:
-
-
         default:
             console.log('Invalid choice, please try again.');
+            employeeApp();
     }
-    employeeApp();
 }
 
+// function to view all employees
 function viewAllEmployees() {
     // Getting information from database using query
     pool.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name,' ', manager.last_name) AS manager
@@ -90,5 +95,30 @@ function viewAllEmployees() {
     })
 }
 
+// function to view all roles
+async function viewAllRoles() {
+    try {
+        const result = await pool.query(`
+            SELECT role.id, role.title, department.name AS department, role.salary
+            FROM role
+            INNER JOIN department ON role.department_id = department.id
+        `);
+        console.table(result.rows);
+    } catch (err) {
+        console.error('Error executing query:', err);
+    }
+    employeeApp();
+}
+
+// function to view all departments
+async function viewAllDepartments() {
+    try {
+        const result = await pool.query(`SELECT * FROM department`);
+        console.table(result.rows);
+    } catch (err) {
+        console.error('Error executing query:', err);
+    }
+    employeeApp();
+}
 
 employeeApp();

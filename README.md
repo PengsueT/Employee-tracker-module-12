@@ -44,14 +44,13 @@ When the application is started, you will be prompted with a menu that allows yo
 
 ## Credits
 
-- [MDN Web Docs](https://developer.mozilla.org/) – For JavaScript, SQL, and general web development guidance.
+- [MDN Web Docs](https://developer.mozilla.org/) – JavaScript, SQL, and general web development guidance.
 
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/) – For database setup, queries, and management.
+- [PostgreSQL Documentation](https://www.npmjs.com/package/pg) – Database setup, queries, and management.
 
-- [W3Schools](https://www.w3schools.com/) – For additional SQL tutorials and examples.
+- [W3Schools](https://www.w3schools.com/) – Additional SQL tutorials and examples.
 
 - [Inquirer.js](https://www.npmjs.com/package/inquirer)
 
-- [PostgreSQL](https://www.postgresql.org/)
 
 - [GithubLiveLink]()

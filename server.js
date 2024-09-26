@@ -66,7 +66,17 @@ async function employeeApp() {
         case 'View All Departments':
             await viewAllDepartments();
             break;
+        case 'Add Employee':
+            await addEmployee();
+            break;
+        case 'Add Role':
+            await addRole();
+            break;
+        case 'Add Department':
+            await addDepartment();
+            break;
 
+        // need one to updateEmployeeRole
 
         case 'Quit':
             await pool.end(); // we want to close PostgreSQL pool when quitting
@@ -74,7 +84,7 @@ async function employeeApp() {
             process.exit(0);
         default:
             console.log('Invalid choice, please try again.');
-            employeeApp();
+            employeeApp(); // go back to employee menu
     }
 }
 
@@ -118,6 +128,96 @@ async function viewAllDepartments() {
     } catch (err) {
         console.error('Error executing query:', err);
     }
+    employeeApp();
+}
+
+// function to add a new employee
+async function addEmployee() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'firstName',
+            message: 'Enter the employee first name:'
+        },
+        {
+            type: 'input',
+            name: 'lastName',
+            message: 'Enter the employee last name:'
+        },
+        {
+            type: 'input',
+            name: 'roleId',
+            message: 'Enter the role ID for this employee:'
+        },
+        {
+            type: 'input',
+            name: 'managerId',
+            message: 'Enter the manager ID for this employee (or leave blank if none):',
+            default: null
+        }
+    ]);
+
+    try {
+        await pool.query(`
+            INSERT INTO employee (first_name, last_name, role_id, manager_id)
+            VALUES ($1, $2, $3, $4)`, [answers.firstName, answers.lastName, answers.roleId, answers.managerId || null]);
+        console.log(`Employee '${answers.firstName} ${answers.lastName}' added successfully!`);
+    } catch (err) {
+        console.error('Error adding employee:', err);
+    }
+
+    employeeApp();
+}
+
+// funciton to add a new role
+async function addRole() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'roleTitle',
+            message: 'Enter the role title:'
+        },
+        {
+            type: 'input',
+            name: 'roleSalary',
+            message: 'Enter the salary for the role:'
+        },
+        {
+            type: 'input',
+            name: 'departmentId',
+            message: 'Enter the department ID for this role:'
+        }
+    ]);
+
+    try {
+        await pool.query(`
+            INSERT INTO role (title, salary, department_id)
+            VALUES ($1, $2, $3)`, [answers.roleTitle, answers.roleSalary, answers.departmentId]);
+        console.log(`Role '${answers.roleTitle}' added successfully!`);
+    } catch (err) {
+        console.error('Error adding role:', err);
+    }
+
+    employeeApp();
+}
+
+// function to add new department
+async function addDepartment() {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'departmentName',
+            message: 'Enter the name of the new department:'
+        }
+    ]);
+
+    try {
+        await pool.query('INSERT INTO department (name) VALUES ($1)', [answer.departmentName]);
+        console.log(`Department '${answer.departmentName}' added successfully!`);
+    } catch (err) {
+        console.error('Error adding department:', err);
+    }
+
     employeeApp();
 }
 
